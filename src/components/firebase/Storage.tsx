@@ -5,7 +5,6 @@ import {
   AuthCheck,
   StorageImage,
   useStorage,
-  useAuth,
   useUser,
 } from "reactfire";
 import { Button } from "@material-ui/core";
@@ -81,8 +80,8 @@ const ImageUploadButton = () => {
 const Avatar = () => {
   const [exist, setExist] = useState(false);
   const storage = useStorage();
-  const { uid }: firebase.User = useUser();
-  const ref = storage.ref(`users/${uid}/images`);
+  const user: firebase.User = useUser();
+  const ref = storage.ref(`users/${user?.uid}/images`);
 
   ref.child("Avatar").getDownloadURL().then(onResolve, onReject);
 
@@ -95,9 +94,9 @@ const Avatar = () => {
     setExist(false);
   }
 
-  return exist ? (
+  return exist && user ? (
     <StorageImage
-      storagePath={`users/${uid}/images/Avatar`}
+      storagePath={`users/${user?.uid}/images/Avatar`}
       alt="demo avatar"
       style={{ width: "100%" }}
     />

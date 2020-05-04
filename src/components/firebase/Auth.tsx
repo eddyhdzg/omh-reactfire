@@ -9,20 +9,19 @@ const signOut = (auth: firebase.auth.Auth) => {
 
 const UserDetails = ({ user }: { user: firebase.User }) => {
   const auth = useAuth();
-  const { displayName, uid, email } = user;
 
   return (
     <>
       <Typography variant="subtitle1" gutterBottom>
-        Displayname: <b>{displayName}</b>
+        Displayname: <b>{user?.displayName}</b>
       </Typography>
 
       <Typography variant="subtitle1" gutterBottom>
-        Email: <b>{email}</b>
+        Email: <b>{user?.email}</b>
       </Typography>
 
       <Typography variant="subtitle1" gutterBottom>
-        uID: <b>{uid}</b>
+        uID: <b>{user?.uid}</b>
       </Typography>
 
       <Button variant="contained" onClick={() => signOut(auth)}>
