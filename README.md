@@ -3,6 +3,10 @@
 ReactFire Workshop for One-Month-Hack
 Build Modern React apps with Hooks, Suspense, and Firebase
 
+## Demo
+
+https://one-month-hack.firebaseapp.com/
+
 ## 1. Introduction
 
 [Firebase](https://firebase.google.com/) is a mobile and web application development platform developed by Firebase, Inc. in 2011, then acquired by Google in 2014. As of March 2020, the Firebase platform has 19 products.
@@ -47,9 +51,16 @@ It makes it easy and fast to deploy a backendless application.
 - Reactfire - [https://www.youtube.com/watch?v=Mi9aKDcpRYA&t](https://www.youtube.com/watch?v=Mi9aKDcpRYA&t)
 - Fast React Website Deployment With Firebase- [https://www.youtube.com/watch?v=IDHfvpsYShs&t](https://www.youtube.com/watch?v=IDHfvpsYShs&t)
 
-## Demo
+## How to run project
 
-https://one-month-hack.firebaseapp.com/
+**Caution**
+- First change config in src/components/firebase/firebase.config.ts to your firebase project data.
+- Enable Google Auth, real time database and storage in your firebase console.
+
+```
+npm i
+npm start
+```
 
 ## Itinerary
 
