@@ -8,7 +8,10 @@ const ThemeContext = createContext({
 });
 
 const ThemeProvider: React.FC = ({ children }) => {
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const fetchTheme = localStorage.getItem("theme");
+  const initialTheme = fetchTheme === "dark" ? "dark" : "light";
+
+  const [theme, setTheme] = useState<"light" | "dark">(initialTheme);
   const muitheme = createMuiTheme({
     palette: {
       type: theme,
