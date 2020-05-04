@@ -3,29 +3,27 @@ import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { SuspenseWithPerf, useUser, useAuth } from "reactfire";
 import { Button, Typography } from "@material-ui/core";
 
-const signOut = (auth: firebase.auth.Auth) =>
+const signOut = (auth: firebase.auth.Auth) => {
   auth.signOut().then(() => console.log("signed out"));
+};
 
 const UserDetails = ({ user }: { user: firebase.User }) => {
   const auth = useAuth();
+  const { displayName, uid, email } = user;
 
   return (
     <>
-      <Typography variant="h6">Displayname:</Typography>
       <Typography variant="subtitle1" gutterBottom>
-        {user.displayName}
+        Displayname: <b>{displayName}</b>
       </Typography>
 
-      <Typography variant="h6">uID:</Typography>
       <Typography variant="subtitle1" gutterBottom>
-        {user.uid}
+        Email: <b>{email}</b>
       </Typography>
 
-      <ul>
-        {user.providerData.map((profile: firebase.UserInfo | null) => (
-          <li key={profile?.providerId}>{profile?.providerId}</li>
-        ))}
-      </ul>
+      <Typography variant="subtitle1" gutterBottom>
+        uID: <b>{uid}</b>
+      </Typography>
 
       <Button variant="contained" onClick={() => signOut(auth)}>
         Sign Out
@@ -50,11 +48,11 @@ const SignInForm = () => {
 };
 
 const FirebaseAuthStateButton = () => {
-  const user: any = useUser();
+  const user: firebase.User = useUser();
   return user ? <UserDetails user={user} /> : <SignInForm />;
 };
 
-const AuthButton = () => {
+const Auth = () => {
   return (
     <SuspenseWithPerf
       traceId={"firebase-user-wait"}
@@ -65,4 +63,4 @@ const AuthButton = () => {
   );
 };
 
-export default AuthButton;
+export default Auth;

@@ -5,8 +5,8 @@ import {
   SuspenseWithPerf,
   useDatabase,
   useDatabaseListData,
-  useAuth,
   useDatabaseObjectData,
+  useUser,
 } from "reactfire";
 
 import { List, Typography } from "@material-ui/core";
@@ -16,20 +16,18 @@ import { TClass } from "../lib/types";
 
 const Classes = () => {
   const database = useDatabase();
-  const auth = useAuth();
-  const { uid } = auth.currentUser!;
+  const { uid }: firebase.User = useUser();
   const ref = database.ref(`users/${uid}/classes`);
 
   const classes: TClass[] = useDatabaseListData(ref, { idField: "id" });
 
   const addClass = (name: string) => {
-    const newClassRef = ref.push();
-    return newClassRef.set({
-      name,
-    });
+    return ref.push({ name });
   };
 
-  const removeClass = (id: string) => ref.child(id).remove();
+  const removeClass = (id: string) => {
+    return ref.child(id).remove();
+  };
 
   const updateClass = (e: React.ChangeEvent<HTMLInputElement>) => {
     ref
@@ -61,15 +59,12 @@ const Classes = () => {
 };
 
 const MyCounter = () => {
-  const auth = useAuth();
-  const { uid } = auth.currentUser!;
   const database = useDatabase();
+  const ref = database.ref(`globalCounter/counter`);
+  const count = useDatabaseObjectData(ref);
 
-  const ref = database.ref(`users/${uid}/counter`);
   const increment = (amountToIncrement: number) =>
     ref.transaction((counterVal: number) => counterVal + amountToIncrement);
-
-  const count = useDatabaseObjectData(ref);
 
   ref.once("value", function (snapshot) {
     if (!snapshot.exists()) ref.set(0);
@@ -78,19 +73,46 @@ const MyCounter = () => {
   return <Counter increment={increment} count={Number(count)} />;
 };
 
+const checkIfUserExists = (
+  database: firebase.database.Database,
+  user: firebase.User
+) => {
+  const { displayName, uid, email } = user;
+  const ref = database.ref(`users/${uid}`);
+  ref.once("value", function (snapshot) {
+    if (!snapshot.exists())
+      ref.set({
+        name: displayName,
+        email,
+      });
+  });
+};
+
+const RealTimeDatabase = () => {
+  const database = useDatabase();
+  const user: firebase.User = useUser();
+  checkIfUserExists(database, user);
+
+  return (
+    <>
+      <Typography variant="h6" gutterBottom>
+        Contador Público
+      </Typography>
+      <MyCounter />
+
+      <Typography variant="h6" gutterBottom>
+        Materias que voy a reprobar
+      </Typography>
+      <Classes />
+    </>
+  );
+};
+
 const SuspenseWrapper = () => {
   return (
     <SuspenseWithPerf fallback="loading..." traceId="RTDB-root">
       <AuthCheck fallback="sign in to use Realtime Database">
-        <Typography variant="h6" gutterBottom>
-          Contador
-        </Typography>
-        <MyCounter />
-
-        <Typography variant="h6" gutterBottom>
-          Materias que voy a reprobar
-        </Typography>
-        <Classes />
+        <RealTimeDatabase />
       </AuthCheck>
     </SuspenseWithPerf>
   );

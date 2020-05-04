@@ -5,6 +5,8 @@ import {
   AuthCheck,
   StorageImage,
   useStorage,
+  useAuth,
+  useUser,
 } from "reactfire";
 import { Button } from "@material-ui/core";
 
@@ -29,18 +31,20 @@ const UploadProgress = ({
 const ImageUploadButton = () => {
   const [uploadTask, setUploadTask] = useState<firebase.storage.UploadTask>();
   const storage = useStorage();
-  const ref = storage.ref("images");
+  const { uid }: firebase.User = useUser();
+  const ref = storage.ref(`users/${uid}/images`);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
     // @ts-ignore
     const fileToUpload = fileList[0];
-    const newRef = storage.ref("images").child("Avatar");
+    const newRef = ref.child("Avatar");
 
     const uploadTask = newRef.put(fileToUpload);
 
     uploadTask.then(() => {
       setUploadTask(undefined);
+      window.location.reload(false);
     });
     setUploadTask(uploadTask);
   };
@@ -77,7 +81,8 @@ const ImageUploadButton = () => {
 const Avatar = () => {
   const [exist, setExist] = useState(false);
   const storage = useStorage();
-  const ref = storage.ref("images");
+  const { uid }: firebase.User = useUser();
+  const ref = storage.ref(`users/${uid}/images`);
 
   ref.child("Avatar").getDownloadURL().then(onResolve, onReject);
 
@@ -92,8 +97,8 @@ const Avatar = () => {
 
   return exist ? (
     <StorageImage
-      storagePath="images/Avatar"
-      alt="demo download"
+      storagePath={`users/${uid}/images/Avatar`}
+      alt="demo avatar"
       style={{ width: "100%" }}
     />
   ) : (
