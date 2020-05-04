@@ -27,10 +27,9 @@ const UploadProgress = ({
   return <span>{percentComplete}</span>;
 };
 
-const ImageUploadButton = () => {
+const ImageUploadButton = ({ uid }: { uid: string }) => {
   const [uploadTask, setUploadTask] = useState<firebase.storage.UploadTask>();
   const storage = useStorage();
-  const { uid }: firebase.User = useUser();
   const ref = storage.ref(`users/${uid}/images`);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,11 +76,10 @@ const ImageUploadButton = () => {
   );
 };
 
-const Avatar = () => {
+const Avatar = ({ uid }: { uid: string }) => {
   const [exist, setExist] = useState(false);
   const storage = useStorage();
-  const user: firebase.User = useUser();
-  const ref = storage.ref(`users/${user?.uid}/images`);
+  const ref = storage.ref(`users/${uid}/images`);
 
   ref.child("Avatar").getDownloadURL().then(onResolve, onReject);
 
@@ -94,9 +92,9 @@ const Avatar = () => {
     setExist(false);
   }
 
-  return exist && user ? (
+  return exist ? (
     <StorageImage
-      storagePath={`users/${user?.uid}/images/Avatar`}
+      storagePath={`users/${uid}/images/Avatar`}
       alt="demo avatar"
       style={{ width: "100%" }}
     />
@@ -105,13 +103,23 @@ const Avatar = () => {
   );
 };
 
+const Storage = () => {
+  const user: firebase.User = useUser();
+
+  return (
+    <>
+      {user && <Avatar uid={user?.uid} />}
+      <br />
+      {user && <ImageUploadButton uid={user?.uid} />}
+    </>
+  );
+};
+
 const SuspenseWrapper = () => {
   return (
     <SuspenseWithPerf fallback="loading..." traceId="storage-root">
       <AuthCheck fallback="sign in to use Storage">
-        <Avatar />
-        <br />
-        <ImageUploadButton />
+        <Storage />
       </AuthCheck>
     </SuspenseWithPerf>
   );
