@@ -118,6 +118,9 @@ Enable the Realtime Database in the Firebase console.
         }[]
     }
 
+![Data Structure](https://firebasestorage.googleapis.com/v0/b/one-month-hack.appspot.com/o/dataStructure.png?alt=media&token=cdc4645c-9857-46ee-9190-09ab735ae26f)
+
+
 ### Step 2
 
 Setup Firebase rules
