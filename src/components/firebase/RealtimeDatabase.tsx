@@ -14,8 +14,11 @@ import { CreateClass, Counter } from "../ui/atomic/molecules";
 import { ClassListItem } from "../ui/atomic/atoms";
 import { TClass } from "../lib/types";
 
-const Classes = ({ uid }: { uid: string }) => {
+const Classes = () => {
   const database = useDatabase();
+  const user: firebase.User = useUser();
+  const { uid } = user;
+  checkIfUserExists(database, user);
 
   const ref = database.ref(`users/${uid}/classes`);
 
@@ -89,10 +92,6 @@ const checkIfUserExists = (
 };
 
 const RealTimeDatabase = () => {
-  const database = useDatabase();
-  const user: firebase.User = useUser();
-  checkIfUserExists(database, user);
-
   return (
     <>
       <Typography variant="h6" gutterBottom>
@@ -103,7 +102,7 @@ const RealTimeDatabase = () => {
       <Typography variant="h6" gutterBottom>
         Materias que voy a reprobar
       </Typography>
-      {user && <Classes uid={user?.uid} />}
+      <Classes />
     </>
   );
 };

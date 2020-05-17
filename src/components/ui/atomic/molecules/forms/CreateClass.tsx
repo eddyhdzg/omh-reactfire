@@ -3,7 +3,7 @@ import { Input, PrimaryButton } from "../../atoms";
 import useStyles from "./create-class.jss";
 
 interface ICreateClass {
-  handleSubmitform: (commonName: string) => Promise<any>;
+  handleSubmitform: (commonName: string) => Promise<any> | any;
 }
 
 export default function CreateClass(props: ICreateClass) {

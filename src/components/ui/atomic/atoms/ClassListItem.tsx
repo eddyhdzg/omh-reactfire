@@ -11,7 +11,7 @@ interface IClassListItem {
   name: string;
   id: string;
   index: number;
-  removeClass: (id: string) => Promise<any>;
+  removeClass: (id: string) => Promise<any> | any;
   updateClass: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
