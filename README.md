@@ -50,6 +50,12 @@ It makes it easy and fast to deploy a backendless application.
 
 - Reactfire - [https://www.youtube.com/watch?v=Mi9aKDcpRYA&t](https://www.youtube.com/watch?v=Mi9aKDcpRYA&t)
 - Fast React Website Deployment With Firebase- [https://www.youtube.com/watch?v=IDHfvpsYShs&t](https://www.youtube.com/watch?v=IDHfvpsYShs&t)
+- Firebase - Ultimate Beginner's Guide [https://www.youtube.com/watch?v=9kRgVxULbag&t]
+- 100 Firebase Tips, Tricks, and Screw-ups [https://www.youtube.com/watch?v=iWEgpdVSZyg&t]
+
+**Medium**
+
+- React & Firebase markdown editor [https://levelup.gitconnected.com/learn-how-to-build-a-fast-and-responsive-markdown-editor-with-react-firebase-and-swr-79a3a683fced]
 
 ## How to run project
 
