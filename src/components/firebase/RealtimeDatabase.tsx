@@ -76,6 +76,8 @@ const MyCounter = () => {
   return <Counter increment={increment} count={Number(count)} />;
 };
 
+// use firebase functions instead
+// https://firebase.google.com/docs/functions/auth-events#trigger_a_function_on_user_creation
 const checkIfUserExists = (
   database: firebase.database.Database,
   user: firebase.User
